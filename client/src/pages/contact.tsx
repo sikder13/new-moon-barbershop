@@ -62,7 +62,7 @@ export default function Contact() {
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3023.086246440263!2d-73.79469792426983!3d40.71353997139316!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c260f73c66f7f3%3A0x6b7200508687258!2s169-06%20Hillside%20Ave%2C%20Jamaica%2C%20NY%2011432!5e0!3m2!1sen!2sus!4v1709664000000!5m2!1sen!2sus" 
               width="100%" 
               height="100%" 
-              style={{ border: 0 }} 
+              style={{ border: 0, filter: 'grayscale(100%) invert(0%) contrast(100%)' }} 
               allowFullScreen={true} 
               loading="lazy" 
               referrerPolicy="no-referrer-when-downgrade"

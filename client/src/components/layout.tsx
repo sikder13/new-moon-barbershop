@@ -202,10 +202,21 @@ export function Layout({ children }: { children: React.ReactNode }) {
               <MapPin className="h-5 w-5 shrink-0 mt-0.5" />
               <span>169-06 Hillside Ave,<br/>Jamaica, NY 11432</span>
             </p>
-            <p className="flex items-center justify-center md:justify-start gap-3 text-primary-foreground/80">
+            <p className="flex items-center justify-center md:justify-start gap-3 text-primary-foreground/80 mb-6">
               <Phone className="h-5 w-5 shrink-0" />
               <a href="tel:7182062927" className="hover:text-white transition-colors">(718) 206-2927</a>
             </p>
+            <div className="rounded-lg overflow-hidden border border-white/10 w-full h-32 opacity-90 hover:opacity-100 transition-opacity">
+               <iframe 
+                  src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3023.086246440263!2d-73.79469792426983!3d40.71353997139316!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c260f73c66f7f3%3A0x6b7200508687258!2s169-06%20Hillside%20Ave%2C%20Jamaica%2C%20NY%2011432!5e0!3m2!1sen!2sus!4v1709664000000!5m2!1sen!2sus" 
+                  width="100%" 
+                  height="100%" 
+                  style={{ border: 0, filter: 'grayscale(100%) invert(0%) contrast(100%)' }} 
+                  allowFullScreen={false} 
+                  loading="lazy" 
+                  referrerPolicy="no-referrer-when-downgrade"
+               ></iframe>
+            </div>
           </div>
           <div>
             <h4 className="text-lg font-bold mb-6 text-secondary">Hours</h4>

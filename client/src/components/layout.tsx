@@ -45,7 +45,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <div className="min-h-screen flex flex-col font-sans relative">
+    <div className="min-h-screen flex flex-col font-sans relative bg-background">
       {/* Top Header */}
       <motion.header 
         initial={{ y: -100 }}
@@ -97,7 +97,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               {isOpenNow && <span>Closes at {closingTime}</span>}
             </div>
             <Link href="/book">
-              <Button className="bg-secondary hover:bg-secondary/90 text-white font-medium px-6 shadow-sm hover:shadow-md transition-all">
+              <Button className="bg-secondary hover:bg-secondary/90 text-white font-medium px-6 shadow-sm hover:shadow-md transition-all cursor-scissors hover:scale-105 active:scale-95">
                 Book Appointment
               </Button>
             </Link>
@@ -117,7 +117,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="right" className="w-[300px] bg-[#FAF9F6] border-l-primary/10">
+              <SheetContent side="right" className="w-[300px] bg-[#FCFCFA] border-l-primary/10">
                 <div className="flex flex-col h-full">
                   <div className="mt-8 mb-8">
                     <h2 className="text-3xl font-serif font-bold text-primary mb-1">New Moon</h2>
@@ -152,7 +152,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
                       </div>
                     </div>
                     <Link href="/book">
-                      <Button className="w-full bg-secondary hover:bg-secondary/90 text-white" onClick={() => setIsOpen(false)}>
+                      <Button className="w-full bg-secondary hover:bg-secondary/90 text-white cursor-scissors" onClick={() => setIsOpen(false)}>
                         Book Now
                       </Button>
                     </Link>
@@ -229,7 +229,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       {/* Mobile Sticky Bottom Nav - High Contrast */}
       <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-border p-3 z-50 flex gap-3 shadow-[0_-4px_20px_-1px_rgba(0,0,0,0.1)]">
         <Button 
-          className="flex-1 bg-[#1A365D] hover:bg-[#1A365D]/90 text-white font-bold h-12 text-base rounded-lg shadow-md transition-transform active:scale-95"
+          className="flex-1 bg-primary hover:bg-primary/90 text-white font-bold h-12 text-base rounded-lg shadow-md transition-transform active:scale-95 active:shadow-none"
           asChild
         >
           <a href="tel:7182062927">
@@ -238,7 +238,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
           </a>
         </Button>
         <Link href="/book" className="flex-1">
-          <Button className="w-full bg-[#C19A6B] hover:bg-[#C19A6B]/90 text-white font-bold h-12 text-base rounded-lg shadow-md transition-transform active:scale-95">
+          <Button className="w-full bg-secondary hover:bg-secondary/90 text-white font-bold h-12 text-base rounded-lg shadow-md transition-transform active:scale-95 active:shadow-none">
             <Calendar className="mr-2 h-4 w-4" />
             Book Now
           </Button>

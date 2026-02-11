@@ -1,5 +1,5 @@
 import { Link, useLocation } from "wouter";
-import { Phone, Calendar, Menu, X, Scissors, MapPin, User, Clock } from "lucide-react";
+import { Phone, Calendar, Menu, MapPin } from "lucide-react";
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
@@ -50,7 +50,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
               </Link>
             ))}
             <Link href="/book">
-              <Button className="bg-secondary hover:bg-secondary/90 text-white font-medium px-6">
+              <Button className="bg-secondary hover:bg-secondary/90 text-white font-medium px-6 shadow-sm">
                 Book Appointment
               </Button>
             </Link>
@@ -89,7 +89,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </header>
 
       {/* Main Content */}
-      <main className="flex-grow pt-20 pb-24 md:pb-0">
+      <main className="flex-grow pt-20 pb-20 md:pb-0">
         {children}
       </main>
 
@@ -126,21 +126,20 @@ export function Layout({ children }: { children: React.ReactNode }) {
         </div>
       </footer>
 
-      {/* Mobile Sticky Bottom Nav */}
-      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-border p-4 z-50 flex gap-4 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
+      {/* Mobile Sticky Bottom Nav - More Compact */}
+      <div className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-border p-3 z-50 flex gap-3 shadow-[0_-4px_6px_-1px_rgba(0,0,0,0.05)]">
         <Button 
-          variant="outline" 
-          className="flex-1 border-primary text-primary hover:bg-primary/5 font-bold h-12 text-lg"
+          className="flex-1 bg-primary hover:bg-primary/90 text-white font-bold h-10 text-base"
           asChild
         >
           <a href="tel:7182062927">
-            <Phone className="mr-2 h-5 w-5" />
+            <Phone className="mr-2 h-4 w-4" />
             Call Now
           </a>
         </Button>
         <Link href="/book" className="flex-1">
-          <Button className="w-full bg-secondary hover:bg-secondary/90 text-white font-bold h-12 text-lg shadow-lg">
-            <Calendar className="mr-2 h-5 w-5" />
+          <Button className="w-full bg-secondary hover:bg-secondary/90 text-white font-bold h-10 text-base shadow-sm">
+            <Calendar className="mr-2 h-4 w-4" />
             Book Now
           </Button>
         </Link>

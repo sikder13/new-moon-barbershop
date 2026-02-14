@@ -24,6 +24,7 @@ export default function Book() {
     // Prepare the data object for the API
     const data = {
       name: formData.get("name"),
+      email: formData.get("email"), // Added email field
       phone: formData.get("phone"),
       service: service, // from state
       date: date?.toLocaleDateString(), // converts to readable date "MM/DD/YYYY"
@@ -32,10 +33,10 @@ export default function Book() {
     };
 
     // Basic validation
-    if (!data.service || !data.time) {
+    if (!data.service || !data.time || !data.date || !data.email) {
       toast({
         title: "Missing Information",
-        description: "Please select a service and a preferred time.",
+        description: "Please provide your email and select a date, service, and time.",
         variant: "destructive",
       });
       return;
@@ -53,12 +54,13 @@ export default function Book() {
       if (response.ok) {
         toast({
           title: "Appointment Booked!",
-          description: "Your spot is saved in our system. See you soon!",
+          description: "Your spot is saved. We've sent a confirmation to your email!",
           duration: 5000,
         });
         // Optional: Reset form or redirect
       } else {
-        throw new Error("Failed to save appointment");
+        const errorData = await response.json();
+        throw new Error(errorData.message || "Failed to save appointment");
       }
     } catch (error) {
       toast({
@@ -122,13 +124,18 @@ export default function Book() {
                     </Select>
                   </div>
 
+                  <div className="space-y-2">
+                    <Label htmlFor="name">Full Name</Label>
+                    <Input id="name" name="name" placeholder="John Doe" required />
+                  </div>
+
                   <div className="grid grid-cols-2 gap-4">
                     <div className="space-y-2">
-                      <Label htmlFor="name">Name</Label>
-                      <Input id="name" name="name" placeholder="John Doe" required />
+                      <Label htmlFor="email">Email Address</Label>
+                      <Input id="email" name="email" type="email" placeholder="john@example.com" required />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="phone">Phone</Label>
+                      <Label htmlFor="phone">Phone Number</Label>
                       <Input id="phone" name="phone" placeholder="(555) 555-5555" required />
                     </div>
                   </div>

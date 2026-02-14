@@ -27,6 +27,7 @@ export const appointments = pgTable("appointments", {
     .primaryKey()
     .default(sql`gen_random_uuid()`),
   name: text("name").notNull(),
+  email: text("email").notNull(),
   phone: text("phone").notNull(),
   service: text("service").notNull(),
   date: text("date").notNull(),

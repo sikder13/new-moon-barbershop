@@ -24,7 +24,7 @@ export default function Book() {
     // Prepare the data object for the API
     const data = {
       name: formData.get("name"),
-      email: formData.get("email"), // Added email field
+      email: formData.get("email"),
       phone: formData.get("phone"),
       service: service, // from state
       date: date?.toLocaleDateString(), // converts to readable date "MM/DD/YYYY"
@@ -32,11 +32,11 @@ export default function Book() {
       notes: formData.get("notes") || "",
     };
 
-    // Basic validation
-    if (!data.service || !data.time || !data.date || !data.email) {
+    // Mandatory Field Validation
+    if (!data.name || !data.email || !data.service || !data.time || !data.date) {
       toast({
         title: "Missing Information",
-        description: "Please provide your email and select a date, service, and time.",
+        description: "Please fill out all required fields (Name, Email, Service, Date, and Time).",
         variant: "destructive",
       });
       return;
@@ -57,7 +57,6 @@ export default function Book() {
           description: "Your spot is saved. We've sent a confirmation to your email!",
           duration: 5000,
         });
-        // Optional: Reset form or redirect
       } else {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to save appointment");
@@ -135,8 +134,8 @@ export default function Book() {
                       <Input id="email" name="email" type="email" placeholder="john@example.com" required />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number</Label>
-                      <Input id="phone" name="phone" placeholder="(555) 555-5555" required />
+                      <Label htmlFor="phone">Phone Number (Optional)</Label>
+                      <Input id="phone" name="phone" placeholder="(555) 555-5555" />
                     </div>
                   </div>
 
@@ -157,6 +156,14 @@ export default function Book() {
                   <div className="space-y-2">
                     <Label htmlFor="notes">Special Requests (Optional)</Label>
                     <Textarea id="notes" name="notes" placeholder="Any specific barber request?" />
+                  </div>
+
+                  {/* Compliance Checkbox */}
+                  <div className="flex items-center space-x-2 py-2">
+                    <input type="checkbox" id="consent" required className="h-4 w-4 rounded border-gray-300 cursor-pointer" />
+                    <Label htmlFor="consent" className="text-xs opacity-80 cursor-pointer">
+                      I agree to receive appointment reminders and agree to the Privacy Policy.
+                    </Label>
                   </div>
 
                   <Button type="submit" className="w-full bg-secondary hover:bg-secondary/90 text-white font-bold h-12">

@@ -8,6 +8,8 @@ export interface IStorage {
   createUser(user: InsertUser): Promise<User>;
   createAppointment(appointment: InsertAppointment): Promise<Appointment>;
   getAppointments(): Promise<Appointment[]>;
+  // NEW: Added method to fetch appointments for a specific day
+  getAppointmentsByDate(date: string): Promise<Appointment[]>; 
 }
 
 export class DatabaseStorage implements IStorage {
@@ -33,6 +35,11 @@ export class DatabaseStorage implements IStorage {
 
   async getAppointments(): Promise<Appointment[]> {
     return await db.select().from(appointments);
+  }
+
+  // NEW: Implementation to query the database by date
+  async getAppointmentsByDate(date: string): Promise<Appointment[]> {
+    return await db.select().from(appointments).where(eq(appointments.date, date));
   }
 }
 

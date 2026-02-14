@@ -6,29 +6,81 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
+
+// Helper to format Date object into YYYY-MM-DD for the API
+const formatDateForApi = (d: Date) => {
+  const year = d.getFullYear();
+  const month = String(d.getMonth() + 1).padStart(2, "0");
+  const day = String(d.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
+
+// Helper to format 24h time ("14:30") into 12h display time ("2:30 PM")
+const formatTimeForDisplay = (time24: string) => {
+  const [hours, minutes] = time24.split(":");
+  const h = parseInt(hours, 10);
+  const ampm = h >= 12 ? "PM" : "AM";
+  const displayH = h % 12 || 12;
+  return `${displayH}:${minutes} ${ampm}`;
+};
 
 export default function Book() {
   const [date, setDate] = useState<Date | undefined>(new Date());
   const [service, setService] = useState<string>("");
   const [time, setTime] = useState<string>("");
+  const [availableSlots, setAvailableSlots] = useState<string[]>([]);
+  const [isLoadingSlots, setIsLoadingSlots] = useState(false);
   const { toast } = useToast();
+
+  // Watch for changes to Date or Service to fetch real-time availability
+  useEffect(() => {
+    if (!date || !service) {
+      setAvailableSlots([]);
+      return;
+    }
+
+    const fetchAvailability = async () => {
+      setIsLoadingSlots(true);
+      try {
+        const formattedDate = formatDateForApi(date);
+        const url = `/api/availability?date=${formattedDate}&service=${encodeURIComponent(service)}`;
+        const response = await fetch(url);
+
+        if (response.ok) {
+          const data = await response.json();
+          setAvailableSlots(data.availableSlots || []);
+
+          // If the user previously selected a time that is no longer available, clear it
+          if (!data.availableSlots.includes(time)) {
+            setTime("");
+          }
+        }
+      } catch (error) {
+        console.error("Failed to fetch slots", error);
+        setAvailableSlots([]);
+      } finally {
+        setIsLoadingSlots(false);
+      }
+    };
+
+    fetchAvailability();
+  }, [date, service]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Create a FormData object from the form
     const formData = new FormData(e.currentTarget);
 
     // Prepare the data object for the API
     const data = {
       name: formData.get("name"),
       email: formData.get("email"),
-      phone: formData.get("phone"),
-      service: service, // from state
-      date: date?.toLocaleDateString(), // converts to readable date "MM/DD/YYYY"
-      time: time, // from state
+      phone: formData.get("phone") || "",
+      service: service,
+      date: date ? formatDateForApi(date) : "",
+      time: time,
       notes: formData.get("notes") || "",
     };
 
@@ -57,7 +109,12 @@ export default function Book() {
           description: "Your spot is saved. We've sent a confirmation to your email!",
           duration: 5000,
         });
-        // Optional: Reset form or redirect
+
+        // Reset form for next booking
+        setService("");
+        setTime("");
+        (e.target as HTMLFormElement).reset();
+
       } else {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to save appointment");
@@ -142,14 +199,21 @@ export default function Book() {
 
                   <div className="space-y-2">
                     <Label htmlFor="time">Preferred Time</Label>
-                    <Select onValueChange={setTime} value={time}>
+                    <Select onValueChange={setTime} value={time} disabled={!date || !service || isLoadingSlots}>
                       <SelectTrigger>
-                        <SelectValue placeholder="Select a time" />
+                        <SelectValue placeholder={
+                          !date || !service ? "Select date & service first" :
+                          isLoadingSlots ? "Loading times..." :
+                          availableSlots.length === 0 ? "No slots available" :
+                          "Select a time"
+                        } />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="Morning (9AM - 12PM)">Morning (9AM - 12PM)</SelectItem>
-                        <SelectItem value="Afternoon (12PM - 4PM)">Afternoon (12PM - 4PM)</SelectItem>
-                        <SelectItem value="Evening (4PM - 7PM)">Evening (4PM - 7PM)</SelectItem>
+                        {availableSlots.map((slot) => (
+                          <SelectItem key={slot} value={slot}>
+                            {formatTimeForDisplay(slot)}
+                          </SelectItem>
+                        ))}
                       </SelectContent>
                     </Select>
                   </div>

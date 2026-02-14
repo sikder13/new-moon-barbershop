@@ -20,8 +20,7 @@ export const insertUserSchema = createInsertSchema(users).pick({
 export type InsertUser = z.infer<typeof insertUserSchema>;
 export type User = typeof users.$inferSelect;
 
-// --- ADD THIS NEW SECTION BELOW ---
-// This defines the "Appointments" table for your database
+// --- UPDATED APPOINTMENTS TABLE ---
 export const appointments = pgTable("appointments", {
   id: varchar("id")
     .primaryKey()
@@ -30,8 +29,12 @@ export const appointments = pgTable("appointments", {
   email: text("email").notNull(),
   phone: text("phone").notNull(),
   service: text("service").notNull(),
-  date: text("date").notNull(),
-  time: text("time").notNull(),
+
+  // Date and Time fields optimized for specific slots
+  date: text("date").notNull(), // Expected format: YYYY-MM-DD for reliable sorting/searching
+  time: text("time").notNull(), // Start time. Expected format: 24h string like "14:30"
+  endTime: text("end_time").notNull(), // End time (Start time + service duration + 10m padding)
+
   notes: text("notes"),
   status: text("status").notNull().default("pending"),
   reminderSent: text("reminder_sent").notNull().default("false"),

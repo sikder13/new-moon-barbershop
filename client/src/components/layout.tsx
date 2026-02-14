@@ -56,8 +56,7 @@ export function Layout({ children }: { children: React.ReactNode }) {
         }`}
       >
         <div className="container mx-auto px-4 flex items-center justify-between">
-          <Link href="/">
-            <a className="flex flex-col group">
+          <Link href="/" className="flex flex-col group">
               <span className={`text-2xl md:text-3xl font-serif font-bold tracking-tight transition-colors duration-300 ${
                 isScrolled ? "text-primary" : "text-primary"
               }`}>
@@ -68,14 +67,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
               }`}>
                 Barbershop
               </span>
-            </a>
           </Link>
 
           {/* Desktop Nav */}
           <nav className="hidden md:flex items-center gap-8">
             {navLinks.map((link) => (
-              <Link key={link.href} href={link.href}>
-                <a className={`text-sm font-medium hover:text-secondary transition-colors relative py-1 ${
+              <Link key={link.href} href={link.href} className={`text-sm font-medium hover:text-secondary transition-colors relative py-1 ${
                   location === link.href ? "text-secondary font-bold" : "text-primary/80"
                 }`}>
                   {link.label}
@@ -85,7 +82,6 @@ export function Layout({ children }: { children: React.ReactNode }) {
                       className="absolute left-0 right-0 bottom-0 h-0.5 bg-secondary"
                     />
                   )}
-                </a>
               </Link>
             ))}
             <div className="h-6 w-px bg-primary/10 mx-2"></div>
@@ -126,15 +122,12 @@ export function Layout({ children }: { children: React.ReactNode }) {
                   
                   <nav className="flex flex-col gap-6">
                     {navLinks.map((link) => (
-                      <Link key={link.href} href={link.href}>
-                        <a 
-                          className={`text-xl font-medium hover:text-secondary transition-colors ${
+                      <Link key={link.href} href={link.href} className={`text-xl font-medium hover:text-secondary transition-colors ${
                             location === link.href ? "text-secondary font-bold" : "text-primary/80"
                           }`}
                           onClick={() => setIsOpen(false)}
                         >
                           {link.label}
-                        </a>
                       </Link>
                     ))}
                   </nav>

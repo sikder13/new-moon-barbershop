@@ -77,18 +77,18 @@ export default function Book() {
     const data = {
       name: formData.get("name"),
       email: formData.get("email"),
-      phone: formData.get("phone") || "",
+      phone: formData.get("phone"), // Removing the fallback so it accurately reads empty strings
       service: service,
       date: date ? formatDateForApi(date) : "",
       time: time,
       notes: formData.get("notes") || "",
     };
 
-    // Mandatory Field Validation
-    if (!data.name || !data.email || !data.service || !data.time || !data.date) {
+    // Mandatory Field Validation - NOW INCLUDING PHONE
+    if (!data.name || !data.email || !data.phone || !data.service || !data.time || !data.date) {
       toast({
         title: "Missing Information",
-        description: "Please fill out all required fields (Name, Email, Service, Date, and Time).",
+        description: "Please fill out all required fields (Name, Email, Phone, Service, Date, and Time).",
         variant: "destructive",
       });
       return;
@@ -192,8 +192,8 @@ export default function Book() {
                       <Input id="email" name="email" type="email" placeholder="john@example.com" required />
                     </div>
                     <div className="space-y-2">
-                      <Label htmlFor="phone">Phone Number (Optional)</Label>
-                      <Input id="phone" name="phone" placeholder="(555) 555-5555" />
+                      <Label htmlFor="phone">Phone Number</Label>
+                      <Input id="phone" name="phone" type="tel" placeholder="(555) 555-5555" required />
                     </div>
                   </div>
 

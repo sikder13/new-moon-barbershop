@@ -57,6 +57,7 @@ export default function Book() {
           description: "Your spot is saved. We've sent a confirmation to your email!",
           duration: 5000,
         });
+        // Optional: Reset form or redirect
       } else {
         const errorData = await response.json();
         throw new Error(errorData.message || "Failed to save appointment");
@@ -158,11 +159,19 @@ export default function Book() {
                     <Textarea id="notes" name="notes" placeholder="Any specific barber request?" />
                   </div>
 
-                  {/* Compliance Checkbox */}
-                  <div className="flex items-center space-x-2 py-2">
-                    <input type="checkbox" id="consent" required className="h-4 w-4 rounded border-gray-300 cursor-pointer" />
-                    <Label htmlFor="consent" className="text-xs opacity-80 cursor-pointer">
-                      I agree to receive appointment reminders and agree to the Privacy Policy.
+                  {/* Consent Checkbox */}
+                  <div className="flex items-start space-x-2 py-2">
+                    <input 
+                      type="checkbox" 
+                      id="consent" 
+                      required 
+                      className="h-4 w-4 mt-1 rounded border-gray-300 cursor-pointer" 
+                    />
+                    <Label htmlFor="consent" className="text-xs opacity-80 cursor-pointer leading-relaxed">
+                      I agree to receive appointment reminders and have read the{" "}
+                      <a href="/privacy" target="_blank" className="underline font-bold text-primary">
+                        Privacy Policy
+                      </a>.
                     </Label>
                   </div>
 
